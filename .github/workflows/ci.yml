@@ -104,8 +104,8 @@ jobs:
       MERIDIAN_S3_ENDPOINT: http://127.0.0.1:19000
       MERIDIAN_S3_ACCESS_KEY: meridian-conformance
       MERIDIAN_S3_SECRET_KEY: meridian-conformance-secret
-      MERIDIAN_S3_ENGINE_RELEASE: RELEASE.2025-04-22T22-12-26Z
-      MERIDIAN_S3_ENGINE_DIGEST: sha256:a1ea29fa28355559ef137d71fc570e508a214ec84ff8083e39bc5428980b015e
+      MERIDIAN_S3_ENGINE_RELEASE: DEVELOPMENT.2025-07-23T15-54-02Z
+      MERIDIAN_S3_ENGINE_DIGEST: sha256:6dabb4a2088c9a79908de3bc05f4586c23ad2182c8908e7e3acbf61c1467fb20
       MERIDIAN_S3_EVIDENCE_PATH: /tmp/meridian-s3-conformance-report.json
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -119,12 +119,17 @@ jobs:
       - run: python -m pip install -c evidence/release-validation.txt --force-reinstall dist/*.whl
       - run: python -m pip check
       - name: Start immutable real S3-compatible engine
+        # minio/minio was removed from Docker Hub (repository deleted upstream,
+        # anonymous and authenticated pulls alike answer "pull access denied");
+        # the fixture engine now uses the Bitnami legacy mirror of the same
+        # MinIO server, pinned by digest. Bitnami images run as non-root, so
+        # the server data directory is /bitnami/minio/data.
         run: |
           docker run --rm -d --name meridian-s3-minio \
             -p 19000:9000 \
             -e MINIO_ROOT_USER="$MERIDIAN_S3_ACCESS_KEY" \
             -e MINIO_ROOT_PASSWORD="$MERIDIAN_S3_SECRET_KEY" \
-            "minio/minio@$MERIDIAN_S3_ENGINE_DIGEST" server /data
+            "bitnamilegacy/minio@$MERIDIAN_S3_ENGINE_DIGEST" server /bitnami/minio/data
           for attempt in $(seq 1 30); do
             if curl --fail --silent "$MERIDIAN_S3_ENDPOINT/minio/health/ready"; then
               exit 0
