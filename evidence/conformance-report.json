@@ -48,13 +48,13 @@
   ],
   "engine": {
     "apiContract": "2006-03-01",
-    "imageDigest": "sha256:a1ea29fa28355559ef137d71fc570e508a214ec84ff8083e39bc5428980b015e",
+    "imageDigest": "sha256:6dabb4a2088c9a79908de3bc05f4586c23ad2182c8908e7e3acbf61c1467fb20",
     "name": "MinIO",
     "observation": "S3 standard API does not expose server release",
     "observedServerRelease": null,
-    "selectedRelease": "RELEASE.2025-04-22T22-12-26Z"
+    "selectedRelease": "DEVELOPMENT.2025-07-23T15-54-02Z"
   },
-  "fingerprint": "sha256:6665878446edde89d3c47e5684e39db3539ff0a6153e000272fcc3f13a210209",
+  "fingerprint": "sha256:d62fbc0aef90f959b41b049d8f164f5ad8efc4a763ba4885aa6cb5cab0f31c02",
   "formatVersion": "meridian.s3-conformance-evidence.v2",
   "objectCommon": {
     "checks": [
