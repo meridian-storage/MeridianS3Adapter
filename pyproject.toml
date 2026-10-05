@@ -25,8 +25,8 @@ classifiers = [
 ]
 dependencies = [
   "boto3>=1.40,<2",
-  "meridian-storage-object-common>=1.0.3,<2",
-  "meridian-storage-core>=1.1,<2",
+  "meridian-storage-object-common>=1,<2",
+  "meridian-storage-core>=1,<2",
 ]
 
 [project.optional-dependencies]
